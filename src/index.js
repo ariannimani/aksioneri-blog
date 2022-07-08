@@ -1,13 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { CategoriesProvider } from "./context/categories.context";
+import { PostsProvider } from "./context/posts.context";
+import { BrowserRouter } from "react-router-dom";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <CategoriesProvider>
+        <PostsProvider>
+          <App />
+        </PostsProvider>
+      </CategoriesProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
