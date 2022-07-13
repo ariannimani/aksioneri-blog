@@ -7,6 +7,7 @@ import { Container } from "@mui/material";
 import { CategoriesContext } from "../../../context/categories.context";
 import { PostsContext } from "../../../context/posts.context";
 import Category from "../Category/Category";
+import PostDetails from "../PostDetails/PostDetails";
 
 export default function Main() {
   const { categories } = useContext(CategoriesContext);
@@ -17,7 +18,16 @@ export default function Main() {
         <Header categories={categories} />
         <Routes>
           <Route path="/" index element={<Home posts={posts} />} />
-          <Route path=":category" element={<Category />} />
+          <Route
+            path="/:category"
+            category=":category"
+            element={<Category posts={posts} />}
+          />
+
+          <Route
+            path={`:category/:postId`}
+            element={<PostDetails posts={posts} />}
+          />
         </Routes>
       </Container>
     </React.Fragment>

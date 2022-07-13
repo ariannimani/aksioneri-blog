@@ -17,21 +17,23 @@ const Header = ({ categories }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [subCategories, setSubCategories] = useState([]);
   const open = Boolean(anchorEl);
-  const { apiParameters, setApiParameters } = useContext(PostsContext);
+  const { setApiParameters } = useContext(PostsContext);
 
   const handleClick = (event, id) => {
     const subCategory = categories.filter((cat) => cat.parent === id);
     setSubCategories(subCategory);
     if (subCategory.length > 0) setAnchorEl(event.currentTarget);
   };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const handleGoToLink = (category) => {
     setAnchorEl(null);
-    setApiParameters(category);
+    if (category !== undefined) setApiParameters({ category: category });
   };
 
   return (
     <AppBar position="static" color="transparent" elevation={0}>
-      {console.log(apiParameters)}
       <Toolbar>
         <IconButton
           size="large"
@@ -46,6 +48,7 @@ const Header = ({ categories }) => {
           <Button
             color="inherit"
             id="resources-button"
+            onClick={() => handleGoToLink(null)}
             component={Link}
             to={"/"}
           >
@@ -62,7 +65,10 @@ const Header = ({ categories }) => {
                   aria-controls={open ? "resources-menu" : undefined}
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
-                  onClick={(event) => handleClick(event, cat.id)}
+                  onMouseEnter={(event) => handleClick(event, cat.id)}
+                  menulistprops={{
+                    onMouseLeave: handleClose,
+                  }}
                 >
                   {cat.name}
                 </Button>
@@ -94,7 +100,6 @@ const Header = ({ categories }) => {
               onClick={() => handleGoToLink(cat.id)}
               component={Link}
               to={cat.slug}
-              value={cat.id}
             >
               {cat.name}
             </MenuItem>
