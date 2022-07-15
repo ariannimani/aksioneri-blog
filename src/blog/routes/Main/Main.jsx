@@ -15,18 +15,18 @@ export default function Main() {
   return (
     <React.Fragment>
       <Container display="flex" direction="column" elevation={0}>
-        <Header categories={categories} />
+        <Header categories={categories.results} />
         <Routes>
-          <Route path="/" index element={<Home posts={posts} />} />
+          <Route path="/" index element={<Home posts={posts.results} />} />
           <Route
             path="/:category"
             category=":category"
-            element={<Category posts={posts} />}
+            element={<Category posts={posts.results} />}
           />
 
           <Route
             path={`:category/:postId`}
-            element={<PostDetails posts={posts} />}
+            element={<PostDetails posts={posts.results} />}
           />
         </Routes>
       </Container>

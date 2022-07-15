@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CategoryCard from "../../components/CategoryCard/CategoryCard";
 import { useLocation } from "react-router-dom";
+import { PostsContext } from "../../../context/posts.context";
 
-export default function Category({ posts, category }) {
+export default function Category({ posts }) {
   const location = useLocation();
   const [path, setPath] = useState("");
+  const { fetchByCategory } = useContext(PostsContext);
 
   useEffect(() => {
+    fetchByCategory();
+
     const arr = location.pathname.replace("/", "").split("-");
 
     for (var i = 0; i < arr.length; i++) {

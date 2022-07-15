@@ -4,6 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -13,11 +14,13 @@ const useStyles = makeStyles(() => ({
     flexDirection: (props) => props.displayFlexDirection,
   },
   font: {
-    bottom: "20%",
+    position: "absolute",
+    bottom: "35%",
     width: "100%",
-    textAlign: "center",
+    textAlign: "left",
     color: "#fff",
     backgroundColor: "none",
+    fontSize: "13px",
     textShadow: "2px 2px 4px #000000",
     "&:hover": {
       color: "#029fb2",
@@ -34,7 +37,8 @@ export default function BasicCard({ post, height }) {
         className={classes.root}
         elevation={0}
         key={post.id}
-        to={`/post/${post.slug}`}
+        component={Link}
+        to={`/${post.category}/${post.slug}`}
       >
         <CardMedia
           component="img"
@@ -43,8 +47,11 @@ export default function BasicCard({ post, height }) {
           alt={post.slug}
         />
         <CardContent>
-          <Typography gutterBottom component="div" className={classes.font}>
-            <div dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+          <Typography gutterBottom component="div">
+            <div
+              className={classes.font}
+              dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+            />
           </Typography>
         </CardContent>
       </Card>
