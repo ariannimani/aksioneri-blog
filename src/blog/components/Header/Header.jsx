@@ -35,7 +35,6 @@ const Header = ({ categories }) => {
   return (
     <AppBar position="static" color="transparent" elevation={0}>
       <Toolbar>
-        {console.log(categories)}
         <IconButton
           size="large"
           edge="start"

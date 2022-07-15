@@ -1,6 +1,6 @@
 import React, { useEffect, createContext, useReducer } from "react";
 import { fetchCategories } from "../blog/data/fetchData";
-import { categoryReducer } from "../blog/reducers/categoryReducer";
+import { categoryReducer } from "../reducers/categoryReducer";
 
 const initialState = {
   loading: true,

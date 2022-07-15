@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useState } from "react";
 import { fetchPostByCategory, fetchPostsById } from "../blog/data/fetchData";
-import { postReducer } from "../blog/reducers/postReducer";
+import { postReducer } from "../reducers/postReducer";
 
 const initialState = {
   loading: true,
