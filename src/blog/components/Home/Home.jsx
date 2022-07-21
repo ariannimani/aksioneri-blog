@@ -4,25 +4,22 @@ import { PostsContext } from "../../../context/posts.context";
 import FeaturedCard from "../Cards/FeaturedCard/FeaturedCard";
 import FeaturedList from "../Cards/FeaturedList/FeaturedList";
 import FeaturedSideCard from "../Cards/FeaturedSideCard/FeaturedSideCard";
+import PostDetailsCard from "../Cards/PostDetailsCard/PostDetailsCard";
 import TitleCard from "../Cards/TitleCard/TitleCard";
-import SwipeText from "../SwipeableTextStepper/SwipeText";
+import SwipeText from "../SwipeText/SwipeText";
 
 const useStyles = makeStyles({
   root: {
     width: 1200,
   },
-  boxFeatured: {},
+  boxFeatured: { marginTop: 20 },
   boxPostContainer: {},
   boxSideBar: {
     background: "#fff",
     borderRadius: 5,
   },
-  trendingBox: {
-    height: 549,
-  },
   boxPosts: { margin: 20 },
   sideBox: {
-    marginTop: 40,
     borderRadius: 5,
   },
 });
@@ -37,13 +34,7 @@ export default function Home() {
 
   return (
     <Grid container direction="column" className={classes.root} spacing={2}>
-      <Grid
-        item
-        container
-        direction="row"
-        className={classes.boxFeatured}
-        spacing={2}
-      >
+      <Grid item container direction="row" spacing={2}>
         <Grid item xs={6}>
           <FeaturedCard currentPosts={posts.results[0]} />
         </Grid>
@@ -58,12 +49,7 @@ export default function Home() {
         <Grid item container direction="column" xs={9}>
           <Grid item>
             <TitleCard title="Trending News" />
-            <Grid
-              item
-              container
-              direction="row"
-              className={classes.trendingBox}
-            >
+            <Grid item container direction="row">
               <Grid item xs={6}>
                 <FeaturedSideCard currentPost={posts.results[6]} />
               </Grid>
@@ -72,20 +58,22 @@ export default function Home() {
               </Grid>
             </Grid>
           </Grid>
-          <Grid container item className={classes.title}>
+          <Grid container item className={classes.boxFeatured}>
             <Grid container item>
               <TitleCard buttons={true} title="Featured News" />
             </Grid>
-            <Grid
-              item
-              container
-              direction="row"
-              className={classes.trendingBox}
-              spacing={2}
-            >
-              <Grid item xs={12}>
-                <SwipeText currentPosts={posts.results} />
-              </Grid>
+            <Grid item container direction="row">
+              <SwipeText currentPosts={posts.results} />
+            </Grid>
+          </Grid>
+          <Grid container item className={classes.boxFeatured}>
+            <Grid container item>
+              <TitleCard buttons={false} title="Businness" />
+            </Grid>
+            <Grid item container direction="column">
+              {posts.results.map((post) => (
+                <PostDetailsCard post={post} />
+              ))}
             </Grid>
           </Grid>
         </Grid>

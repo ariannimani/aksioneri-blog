@@ -9,7 +9,7 @@ const useStyles = makeStyles({
     borderRadius: 10,
     maxWidth: 255,
     height: 360,
-    margin: 10,
+    marginTop: 10,
   },
 });
 export default function SwipeText({ currentPosts }) {

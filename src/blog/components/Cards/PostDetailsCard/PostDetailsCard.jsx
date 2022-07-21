@@ -7,16 +7,16 @@ import { Card, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
   root: {
-    height: 422,
     background: "#fff",
     borderRadius: 5,
+    display: "flex",
+    flexDirection: "row",
   },
 
   image: {
     maxWidth: 340,
     maxHeight: 210,
     borderRadius: 5,
-    marginBottom: -20,
   },
   content: {
     display: "flex",
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function FeaturedSideCard({ currentPost }) {
+export default function FeaturedSideCard({ post }) {
   const classes = useStyles();
 
   //  const convertDate = (post) => {
@@ -38,20 +38,20 @@ export default function FeaturedSideCard({ currentPost }) {
 
   return (
     <React.Fragment>
-      {currentPost !== undefined ? (
+      {post !== undefined ? (
         <Card className={classes.root}>
           <CardMedia
             component="img"
-            image={currentPost.blog_post_layout_featured_media_urls.full[0]}
-            alt={currentPost.slug}
+            image={post.blog_post_layout_featured_media_urls.full[0]}
+            alt={post.slug}
             className={classes.image}
           />
           <CardContent className={classes.content}>
             <CardHeader
               sx={{ marginBottom: -5 }}
               titleTypographyProps={{ variant: "h6" }}
-              title={currentPost.title.rendered}
-              subheader={currentPost.date.toString()}
+              title={post.title.rendered}
+              subheader={post.date.toString()}
             />
 
             <Typography
@@ -59,7 +59,7 @@ export default function FeaturedSideCard({ currentPost }) {
               variant="body2"
               color="text.secondary"
               dangerouslySetInnerHTML={{
-                __html: currentPost.excerpt.rendered,
+                __html: post.excerpt.rendered,
               }}
             />
           </CardContent>
