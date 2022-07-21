@@ -1,64 +1,109 @@
+import { Grid, makeStyles } from "@material-ui/core";
 import React, { useContext, useEffect } from "react";
-import FeaturedCard from "../FeaturedCard/FeaturedCard";
-import BasicCard from "../BasicCard/BasicCard";
-import { Box, Container } from "@mui/material";
-import SideCard from "../SideCard/SideCard";
 import { PostsContext } from "../../../context/posts.context";
+import FeaturedCard from "../Cards/FeaturedCard/FeaturedCard";
+import FeaturedList from "../Cards/FeaturedList/FeaturedList";
+import FeaturedSideCard from "../Cards/FeaturedSideCard/FeaturedSideCard";
+import TitleCard from "../Cards/TitleCard/TitleCard";
+import SwipeText from "../SwipeableTextStepper/SwipeText";
 
-const Home = ({ posts }) => {
-  const { fetchByCategory } = useContext(PostsContext);
+const useStyles = makeStyles({
+  root: {
+    width: 1200,
+  },
+  boxFeatured: {},
+  boxPostContainer: {},
+  boxSideBar: {
+    background: "#fff",
+    borderRadius: 5,
+  },
+  trendingBox: {
+    height: 549,
+  },
+  boxPosts: { margin: 20 },
+  sideBox: {
+    marginTop: 40,
+    borderRadius: 5,
+  },
+});
+
+export default function Home() {
+  const classes = useStyles();
+  const { fetchByCategory, posts } = useContext(PostsContext);
 
   useEffect(() => {
-    fetchByCategory(0);
+    fetchByCategory();
   }, []);
 
   return (
-    <Container
-      sx={{
-        display: "flex",
-        gap: "20px",
-      }}
-    >
-      <Box>
-        <FeaturedCard featuredPost={posts[0]} />
-
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "20px",
-          }}
-        >
-          {posts.slice(0, 3).map((post) => (
-            <BasicCard
-              post={post}
-              key={post.id}
-              height={130}
-              displayFlex={"flex"}
-              displayFlexDirection={"row"}
-            />
-          ))}
-        </Box>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "5px;",
-        }}
+    <Grid container direction="column" className={classes.root} spacing={2}>
+      <Grid
+        item
+        container
+        direction="row"
+        className={classes.boxFeatured}
+        spacing={2}
       >
-        {posts.slice(0, 5).map((post) => (
-          <SideCard
-            post={post}
-            key={post.id}
-            height={70}
-            displayFlex={"flex"}
-            displayFlexDirection={"column"}
-          ></SideCard>
-        ))}
-      </Box>
-    </Container>
+        <Grid item xs={6}>
+          <FeaturedCard currentPosts={posts.results[0]} />
+        </Grid>
+        <Grid item xs={3}>
+          <FeaturedList currentPosts={posts.results} />
+        </Grid>
+        <Grid item xs={3}>
+          <FeaturedSideCard currentPost={posts.results[7]} />
+        </Grid>
+      </Grid>
+      <Grid item container direction="row" spacing={2}>
+        <Grid item container direction="column" xs={9}>
+          <Grid item>
+            <TitleCard title="Trending News" />
+            <Grid
+              item
+              container
+              direction="row"
+              className={classes.trendingBox}
+            >
+              <Grid item xs={6}>
+                <FeaturedSideCard currentPost={posts.results[6]} />
+              </Grid>
+              <Grid item xs={6}>
+                <FeaturedList currentPosts={posts.results} />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid container item className={classes.title}>
+            <Grid container item>
+              <TitleCard buttons={true} title="Featured News" />
+            </Grid>
+            <Grid
+              item
+              container
+              direction="row"
+              className={classes.trendingBox}
+              spacing={2}
+            >
+              <Grid item xs={12}>
+                <SwipeText currentPosts={posts.results} />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid
+          item
+          container
+          direction="column"
+          xs={3}
+          className={classes.sideBox}
+        >
+          <Grid item>
+            <FeaturedList currentPosts={posts.results} />
+          </Grid>
+          <Grid item>
+            <h1>Finance</h1>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
   );
-};
-
-export default Home;
+}

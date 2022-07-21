@@ -8,13 +8,15 @@ const initialState = {
   results: [],
 };
 
-export const PostsContext = createContext({
-  setApiParameters: () => {},
-});
+export const PostsContext = createContext();
 
 export const PostsProvider = ({ children }) => {
   const [posts, dispatch] = useReducer(postReducer, initialState);
-  const [apiParameters, setApiParameters] = useState({ category: null });
+  const [singlePost, setSinglePost] = useState([]);
+  const [apiParameters, setApiParameters] = useState({ category: 0 });
+  const [startStep, setStartStep] = useState(1);
+  const [endStep, setEndStep] = useState(4);
+  const maxSteps = posts.results.length;
 
   const fetchByCategory = async () => {
     await fetchPostByCategory(apiParameters.category).then((results) => {
@@ -23,17 +25,38 @@ export const PostsProvider = ({ children }) => {
   };
 
   const fetchById = async (postId) => {
-    await fetchPostsById(postId).then((results) => {
-      dispatch({ type: "FETCH_SUCCESS", playload: results });
-    });
+    await fetchPostsById(postId).then(
+      (results) => setSinglePost(results)
+      //dispatch({ type: "FETCH_SUCCESS", playload: results });
+    );
+  };
+
+  const handleNext = () => {
+    if (endStep < maxSteps) {
+      setStartStep((prevStartStep) => prevStartStep + 1);
+      setEndStep((prevEndStep) => prevEndStep + 1);
+    }
+  };
+
+  const handleBack = () => {
+    if (startStep !== 0) {
+      setStartStep((prevStartStep) => prevStartStep - 1);
+      setEndStep((prevEndStep) => prevEndStep - 1);
+    }
   };
 
   const value = {
     posts,
+    singlePost,
     apiParameters,
     setApiParameters,
     fetchById,
     fetchByCategory,
+    handleNext,
+    handleBack,
+    startStep,
+    endStep,
+    maxSteps,
   };
 
   return (

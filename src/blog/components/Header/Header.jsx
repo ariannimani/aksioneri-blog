@@ -4,14 +4,32 @@ import {
   IconButton,
   Typography,
   Button,
-  Stack,
   Menu,
   MenuItem,
-} from "@mui/material";
+  ButtonGroup,
+} from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
 import HomeIcon from "@mui/icons-material/Home";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { PostsContext } from "../../../context/posts.context";
+import DateHeader from "./DateHeader/DateHeader";
+import React from "react";
+
+const useStyles = makeStyles({
+  root: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  appBar: { maxWidth: 950, maxHeight: 70 },
+  menu: { marginTop: 48 },
+  tool: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  name: { alignItems: "flex-start", flexGrow: 1 },
+});
 
 const Header = ({ categories }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -32,81 +50,80 @@ const Header = ({ categories }) => {
     if (category !== undefined) setApiParameters({ category: category });
   };
 
+  const classes = useStyles();
+
   return (
-    <AppBar position="static" color="transparent" elevation={0}>
-      <Toolbar>
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="logo"
-        ></IconButton>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Aksioneri
-        </Typography>
-        <Stack direction="row" spacing={2}>
-          <Button
+    <div className={classes.root}>
+      <AppBar position="static" color="primary" className={classes.appBar}>
+        <Toolbar className={classes.tool}>
+          <IconButton
+            size="large"
+            edge="start"
             color="inherit"
-            id="resources-button"
-            onClick={() => handleGoToLink(null)}
+            aria-label="logo"
             component={Link}
             to={"/"}
           >
-            <HomeIcon />
-          </Button>
-          {categories
-            .sort((a, b) => (a.id > b.id ? 1 : -1))
-            .map((cat) =>
-              cat.parent === 0 && cat.name !== "Uncategorized" ? (
-                <Button
-                  key={cat.id}
-                  color="inherit"
-                  id="resources-button"
-                  aria-controls={open ? "resources-menu" : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? "true" : undefined}
-                  onMouseEnter={(event) => handleClick(event, cat.id)}
-                  menulistprops={{
-                    onMouseLeave: handleClose,
-                  }}
-                >
-                  {cat.name}
-                </Button>
-              ) : (
-                ""
-              )
-            )}
-        </Stack>
-        <Menu
-          id="resources-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleGoToLink}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "right",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          MenuListProps={{
-            "aria-labelledby": "resources-button",
-          }}
-        >
-          {subCategories.map((cat) => (
-            <MenuItem
-              key={cat.id}
-              onClick={() => handleGoToLink(cat.id)}
+            <Typography variant="h6" component="div" className={classes.name}>
+              Aksioneri
+            </Typography>
+          </IconButton>
+
+          <ButtonGroup variant="primary">
+            <Button
+              color="inherit"
+              id="resources-button"
+              onClick={() => handleGoToLink(null)}
               component={Link}
-              to={cat.slug}
+              to={"/"}
             >
-              {cat.name}
-            </MenuItem>
-          ))}
-        </Menu>
-      </Toolbar>
-    </AppBar>
+              <HomeIcon />
+            </Button>
+            {categories
+              .sort((a, b) => (a.id > b.id ? 1 : -1))
+              .map((cat) =>
+                cat.parent === 0 && cat.name !== "Uncategorized" ? (
+                  <Button
+                    key={cat.id}
+                    color="inherit"
+                    id="resources-button"
+                    aria-controls={open ? "resources-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onMouseEnter={(event) => handleClick(event, cat.id)}
+                    menulistprops={{
+                      onMouseLeave: handleClose,
+                    }}
+                  >
+                    {cat.name}
+                  </Button>
+                ) : (
+                  ""
+                )
+              )}
+          </ButtonGroup>
+          <Menu
+            id="resources-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleGoToLink}
+            className={classes.menu}
+          >
+            {subCategories.map((cat) => (
+              <MenuItem
+                key={cat.id}
+                onClick={() => handleGoToLink(cat.id)}
+                component={Link}
+                to={cat.slug}
+              >
+                {cat.name}
+              </MenuItem>
+            ))}
+          </Menu>
+        </Toolbar>
+      </AppBar>
+      <DateHeader />
+    </div>
   );
 };
 

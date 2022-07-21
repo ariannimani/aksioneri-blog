@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import CategoryCard from "../../components/CategoryCard/CategoryCard";
+import CategoryBox from "../../components/Boxes/CategoryBox/CategoryBox";
 import { useLocation } from "react-router-dom";
 import { PostsContext } from "../../../context/posts.context";
 
@@ -21,11 +21,13 @@ export default function Category({ posts }) {
     setPath(str2);
   }, [location.pathname]);
 
-  return (
+  return posts.loading ? (
+    "Loading..."
+  ) : (
     <React.Fragment>
       <h3>Kategoria: {path}</h3>
       {posts.map((post) => (
-        <CategoryCard post={post} key={post.id} />
+        <CategoryBox post={post} key={post.id} />
       ))}
     </React.Fragment>
   );
