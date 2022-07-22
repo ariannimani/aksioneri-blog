@@ -13,6 +13,7 @@ const useStyles = makeStyles({
     //height: (props) => props.heightSize,
     height: 422,
     borderRadius: 5,
+    background: "#fff",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
@@ -21,6 +22,9 @@ const useStyles = makeStyles({
   font: {
     color: "#000",
     fontSize: 12,
+    "&:hover": {
+      color: "#1091ff",
+    },
   },
   mainCard: {
     display: "flex",
@@ -28,7 +32,6 @@ const useStyles = makeStyles({
     alignItems: "center",
     height: 92,
     padding: 15,
-    background: "#fff",
     textDecoration: "none",
   },
 });
@@ -46,6 +49,7 @@ export default function FeaturedList({ currentPosts, widthSize, heightSize }) {
               component={Link}
               to={`/${post.category}/${post.slug}`}
               className={classes.mainCard}
+              elevation={0}
             >
               <CardMedia
                 component="img"

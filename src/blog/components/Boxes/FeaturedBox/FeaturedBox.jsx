@@ -1,7 +1,6 @@
 import { Box, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 import FeaturedSideCard from "../../Cards/FeaturedSideCard/FeaturedSideCard";
-import TitleCard from "../../Cards/TitleCard/TitleCard";
 
 const useStyles = makeStyles({
   root: {

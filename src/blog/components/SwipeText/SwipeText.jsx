@@ -3,13 +3,21 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Grid, makeStyles } from "@material-ui/core";
 import { PostsContext } from "../../../context/posts.context";
+import { Link } from "react-router-dom";
 const useStyles = makeStyles({
   color: {
     background: "#fff",
     borderRadius: 10,
-    maxWidth: 255,
+    maxWidth: 246,
     height: 360,
     marginTop: 10,
+  },
+  font: {
+    color: "#000",
+
+    "&:hover": {
+      color: "#1091ff",
+    },
   },
 });
 export default function SwipeText({ currentPosts }) {
@@ -26,14 +34,16 @@ export default function SwipeText({ currentPosts }) {
             key={step.id}
             xs={4}
             className={classes.color}
+            component={Link}
+            to={`/${step.category}/${step.slug}`}
           >
             <Grid item>
               <Box
                 component="img"
                 sx={{
-                  height: 255,
+                  height: 239,
                   display: "block",
-                  maxWidth: 255,
+                  maxWidth: 246,
                   overflow: "hidden",
                   borderRadius: "10px 10px 0px 0px",
                 }}
@@ -44,10 +54,15 @@ export default function SwipeText({ currentPosts }) {
             <Grid item>
               <Typography
                 variant="h6"
-                sx={{ fontSize: 16, minHeight: 70 }}
+                sx={{
+                  fontSize: 16,
+                  minHeight: 70,
+                  textDecoration: "none",
+                }}
                 dangerouslySetInnerHTML={{
                   __html: step.title.rendered,
                 }}
+                className={classes.font}
               ></Typography>
             </Grid>
           </Grid>

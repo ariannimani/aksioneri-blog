@@ -1,7 +1,11 @@
 export const postReducer = (state, action) => {
   switch (action.type) {
     case "FETCH_SUCCESS":
-      return { loading: false, results: action.playload, error: "" };
+      return {
+        loading: false,
+        results: [...state.results, ...action.playload],
+        error: "",
+      };
     case "FETCH_ERROR":
       return {
         loading: false,

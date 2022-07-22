@@ -10,7 +10,7 @@ const useStyles = makeStyles({
     borderRadius: 5,
     width: "100%",
   },
-  font: { padding: 10 },
+  font: { padding: 10, marginLeft: 10 },
   //buttonContainer: { maxWidth: 100 },
   button: { maxWidth: 40, marginTop: 20, marginRight: 25 },
 });

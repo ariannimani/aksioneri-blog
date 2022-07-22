@@ -4,6 +4,7 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { Card, makeStyles } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -16,15 +17,32 @@ const useStyles = makeStyles({
     maxWidth: 340,
     maxHeight: 210,
     borderRadius: 5,
-    marginBottom: -20,
+    display: "block",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   content: {
     display: "flex",
     flexDirection: "column",
+    gap: 20,
+    marginTop: -20,
+  },
+  title: {
+    marginBottom: -40,
+    textDecoration: "none",
+    color: "#000",
+
+    "&:hover": {
+      color: "#1091ff",
+    },
   },
 });
 
-export default function FeaturedSideCard({ currentPost }) {
+export default function FeaturedSideCard({
+  currentPost,
+  maxLengthTitle,
+  maxLengthContent,
+}) {
   const classes = useStyles();
 
   //  const convertDate = (post) => {
@@ -39,7 +57,7 @@ export default function FeaturedSideCard({ currentPost }) {
   return (
     <React.Fragment>
       {currentPost !== undefined ? (
-        <Card className={classes.root}>
+        <Card className={classes.root} elevation={0}>
           <CardMedia
             component="img"
             image={currentPost.blog_post_layout_featured_media_urls.full[0]}
@@ -48,10 +66,19 @@ export default function FeaturedSideCard({ currentPost }) {
           />
           <CardContent className={classes.content}>
             <CardHeader
-              sx={{ marginBottom: -5 }}
+              component={Link}
+              to={`/${currentPost.category}/${currentPost.slug}`}
+              className={classes.title}
               titleTypographyProps={{ variant: "h6" }}
-              title={currentPost.title.rendered}
-              subheader={currentPost.date.toString()}
+              title={
+                currentPost.title.rendered.length > maxLengthTitle
+                  ? `${currentPost.title.rendered.substring(
+                      0,
+                      maxLengthTitle
+                    )}...`
+                  : currentPost.title.rendered
+              }
+              //subheader={currentPost.date.toString()}
             />
 
             <Typography
@@ -59,7 +86,13 @@ export default function FeaturedSideCard({ currentPost }) {
               variant="body2"
               color="text.secondary"
               dangerouslySetInnerHTML={{
-                __html: currentPost.excerpt.rendered,
+                __html:
+                  currentPost.excerpt.rendered.length > maxLengthContent
+                    ? `${currentPost.excerpt.rendered.substring(
+                        0,
+                        maxLengthContent
+                      )}...`
+                    : currentPost.excerpt.rendered,
               }}
             />
           </CardContent>

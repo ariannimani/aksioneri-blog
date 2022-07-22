@@ -18,8 +18,8 @@ export const PostsProvider = ({ children }) => {
   const [endStep, setEndStep] = useState(4);
   const maxSteps = posts.results.length;
 
-  const fetchByCategory = async () => {
-    await fetchPostByCategory(apiParameters.category).then((results) => {
+  const fetchByCategory = async (page) => {
+    await fetchPostByCategory(apiParameters.category, page).then((results) => {
       dispatch({ type: "FETCH_SUCCESS", playload: results });
     });
   };

@@ -21,6 +21,9 @@ const useStyles = makeStyles({
     bgcolor: "rgba(0, 0, 0, 0.54)",
     color: "#fff",
     padding: "10px",
+    "&:hover": {
+      color: "#1091ff",
+    },
   },
 });
 export default function FeaturedCard({ currentPosts }) {
